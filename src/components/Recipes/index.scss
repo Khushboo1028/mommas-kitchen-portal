@@ -1,0 +1,30 @@
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0 4px;
+	justify-content: center;
+}
+
+.images {
+	width: 200px;
+	height: 200px;
+	margin: 1rem;
+	position: relative;
+}
+
+.image {
+	width: inherit;
+	height: inherit;
+}
+
+.close {
+	position: absolute;
+	background-color: red;
+	color: white;
+	padding: 3px 10px;
+	font-size: small;
+	top: 5px;
+	right: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
