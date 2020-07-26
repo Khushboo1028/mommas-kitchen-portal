@@ -34,7 +34,8 @@ const RecipesDetails = (props) => {
 	const [ , setLoadingCategories ] = useState(true);
 	const [ cats, setCats ] = useState([]);
 
-	const [ ingredients_map, setIngredientsMap ] = useState([]);
+	const [ ingredients_map, setIngredientsMap ] = useState({});
+	const [ portion_map, setPortionMap ] = useState({});
 
 	useEffect(() => {
 		console.log('In use effect');
@@ -150,8 +151,11 @@ const RecipesDetails = (props) => {
 				category_name !== 'Loading'
 			) {
 				if (prep_time !== null && prep_time !== undefined && prep_time !== '') {
-					if (portion_size !== null && portion_size !== undefined && portion_size !== '') {
+					if (parseFloat(portion_size)) {
 						if (portion_unit !== null && portion_unit !== undefined && portion_unit !== '') {
+							portion_map['size'] = parseFloat(portion_size);
+							portion_map['unit'] = portion_unit;
+
 							if (ingredients !== null && ingredients !== undefined) {
 								if (ing_quantity !== null && ing_quantity !== undefined) {
 									if (ing_unit != null && ing_unit !== undefined) {
@@ -172,12 +176,10 @@ const RecipesDetails = (props) => {
 													//Create map now
 
 													for (var i = 0; i < ingredients.length; i++) {
-														ingredients_map.push({
-															[ingredients[i]]: {
-																qty   : ing_quantity[i],
-																units : ing_unit[i]
-															}
-														});
+														ingredients_map[ingredients[i]] = {
+															qty   : parseFloat(ing_quantity[i]),
+															units : ing_unit[i]
+														};
 													}
 													console.log(ingredients_map);
 
@@ -280,8 +282,8 @@ const RecipesDetails = (props) => {
 				category_id  : category_id,
 				date_created : new Date(),
 				directions   : directions,
-				// ingredients  : ingredients_map,
-				// portion: do later
+				ingredients  : ingredients_map,
+				portion      : portion_map,
 				prep_time    : prep_time,
 				recipe_name  : recipe_name,
 				video_url    : video_url

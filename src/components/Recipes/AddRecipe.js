@@ -28,12 +28,12 @@ const AddRecipe = (props) => {
 	const [ portion_size, setPortionSize ] = useState('');
 	const [ portion_unit, setPortionUnit ] = useState('');
 	const [ recipeImage, setRecipeImage ] = useState('');
-	const [ recipeImageDelete, setRecipeImageDelete ] = useState('');
 	const [ isError, setIsError ] = useState(false);
 	const [ loadingCategories, setLoadingCategories ] = useState(true);
 	const [ cats, setCats ] = useState([]);
 
-	const [ ingredients_map, setIngredientsMap ] = useState([]);
+	const [ ingredients_map, setIngredientsMap ] = useState({});
+	const [ portion_map, setPortionMap ] = useState({});
 
 	useEffect(
 		() => {
@@ -82,8 +82,11 @@ const AddRecipe = (props) => {
 				category_name !== 'Loading'
 			) {
 				if (prep_time !== null && prep_time !== undefined && prep_time !== '') {
-					if (portion_size !== null && portion_size !== undefined && portion_size !== '') {
+					if (parseFloat(portion_size)) {
 						if (portion_unit !== null && portion_unit !== undefined && portion_unit !== '') {
+							portion_map['size'] = parseFloat(portion_size);
+							portion_map['unit'] = portion_unit;
+
 							if (ingredients !== null && ingredients !== undefined) {
 								if (ing_quantity !== null && ing_quantity !== undefined) {
 									if (ing_unit != null && ing_unit !== undefined) {
@@ -104,13 +107,12 @@ const AddRecipe = (props) => {
 													//Create map now
 
 													for (var i = 0; i < ingredients.length; i++) {
-														ingredients_map.push({
-															[ingredients[i]]: {
-																qty   : ing_quantity[i],
-																units : ing_unit[i]
-															}
-														});
+														ingredients_map[ingredients[i]] = {
+															qty   : parseFloat(ing_quantity[i]),
+															units : ing_unit[i]
+														};
 													}
+
 													console.log(ingredients_map);
 
 													if (directions !== null && directions !== undefined) {
@@ -204,8 +206,8 @@ const AddRecipe = (props) => {
 				category_id  : categoryID,
 				date_created : new Date(),
 				directions   : directions,
-				// ingredients  : ingredients_map, do later
-				// portion: do later
+				ingredients  : ingredients_map,
+				portion      : portion_map,
 				prep_time    : prep_time,
 				recipe_name  : recipe_name,
 				video_url    : video_url,

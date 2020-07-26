@@ -103,47 +103,39 @@ const NavigationDrawer = (props) => {
 	};
 
 	const setTitle = () => {
-		if (props.location.pathname === ROUTES.HOME) {
-			return 'Home';
-		}
 		if (props.location.pathname === ROUTES.RECIPES) {
 			return 'Recipes';
-		}
-		if (props.location.pathname === ROUTES.CATEGORIES) {
+		} else if (props.location.pathname === ROUTES.CATEGORIES) {
 			return 'Categories';
+		} else {
+			return 'Recipes';
 		}
 
 		// console.log(props.location.pathname.substring(0, 11));
 	};
 
 	const checkSelected = () => {
-		if (props.location.pathname === ROUTES.HOME) {
-			return [ true, false, false ];
-		} else if (props.location.pathname === ROUTES.RECIPES) {
-			return [ false, true, false ];
+		if (props.location.pathname === ROUTES.RECIPES) {
+			return [ true, false ];
 		} else if (props.location.pathname === ROUTES.CATEGORIES) {
-			return [ false, false, true ];
+			return [ false, true ];
 		} else {
-			return [ false, false, false ];
+			return [ true, false ];
 		}
 	};
 
 	const goToPage = (index) => {
 		if (index === 0) {
-			return ROUTES.HOME;
-		} else if (index === 1) {
 			return ROUTES.RECIPES;
-		} else if (index === 2) {
+		} else if (index === 1) {
 			return ROUTES.CATEGORIES;
 		}
 	};
 
 	const iconsDrawer = (index) => {
 		if (index === 0) {
-			return <DashboardIcon />;
-		} else if (index === 1) {
 			return <FastfoodIcon />;
-		} else if (index === 2) {
+		} else if (index === 1) {
 			return <CategoryIcon />;
 		}
 	};
@@ -197,7 +189,7 @@ const NavigationDrawer = (props) => {
 				</div>
 				<Divider />
 				<List>
-					{[ 'Home', 'Recipes', 'Categories' ].map((text, index) => (
+					{[ 'Recipes', 'Categories' ].map((text, index) => (
 						<ListItem
 							button
 							key={text}
